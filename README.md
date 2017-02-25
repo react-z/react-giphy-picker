@@ -6,7 +6,7 @@
 
 react-giphy-picker is a simple gif picker component using giphy API
 
-An Gif object in the format specified for an image from Giphy's search API [giphy sample-response-search](https://github.com/Giphy/GiphyAPI#sample-response-search)
+On select it returns a Gif object in the format specified for an image from Giphy's search API [giphy sample-response-search](https://github.com/Giphy/GiphyAPI#sample-response-search)
 
 ## Install
 
