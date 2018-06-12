@@ -20,6 +20,8 @@
     "react": "^15.1.0"
   },
   "dependencies": {
+    "prop-types": "^15.6.1",
+    "react-infinite-scroller": "^1.1.4",
     "styled-components": "^1.4.3",
     "whatwg-fetch": "^2.0.2"
   },
