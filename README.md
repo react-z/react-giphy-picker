@@ -1,12 +1,9 @@
 # React GIPHY Picker
+A simple gif picker component for React using GIPHY API
 
 [![npm version](https://badge.fury.io/js/react-giphy-picker.svg)](https://badge.fury.io/js/react-giphy-picker)
 
 ![](https://github.com/arjunkomath/react-giphy-picker/blob/master/example/screenshot.gif?raw=true)
-
-`react-giphy-picker` is a simple gif picker component for React using GIPHY API
-
-On select it returns a Gif object in the format specified for an image from Giphy's search API [giphy sample-response-search](https://github.com/Giphy/GiphyAPI#sample-response-search)
 
 ## Install
 
@@ -46,7 +43,7 @@ ReactDOM.render(
 ## Props
 
 #### `onSelected` (required)
-Handler returns the emoji character selected from the emoji picker.
+Handler returns the GIF selected from the picker. On select it returns a Gif object in the format specified for an image from Giphy's search API [giphy sample-response-search](https://github.com/Giphy/GiphyAPI#sample-response-search)
 
 #### `visible`
 Opacity to show or hide the picker. Defaults to `true`.
