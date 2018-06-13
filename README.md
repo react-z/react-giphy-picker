@@ -1,16 +1,20 @@
-# react-giphy-picker
+# React GIPHY Picker
 
 [![npm version](https://badge.fury.io/js/react-giphy-picker.svg)](https://badge.fury.io/js/react-giphy-picker)
 
-![](https://raw.githubusercontent.com/StevenIseki/react-giphy-picker/master/example/screenshot.gif)
+![](https://github.com/arjunkomath/react-giphy-picker/blob/master/example/screenshot.gif?raw=true)
 
-react-giphy-picker is a simple gif picker component using giphy API
+`react-giphy-picker` is a simple gif picker component for React using GIPHY API
 
 On select it returns a Gif object in the format specified for an image from Giphy's search API [giphy sample-response-search](https://github.com/Giphy/GiphyAPI#sample-response-search)
 
 ## Install
 
+NPM -
 `npm install react-giphy-picker --save`
+
+Yarn -
+`yarn add react-giphy-picker`
 
 ## Usage basic
 
@@ -51,6 +55,30 @@ Opacity to show or hide the picker. Defaults to `true`.
 If you want the emoji picker to be a modal.
 `true` will set the wrapper as `position: absolute`.
 Or `false`, which is the default will be `position: static`.
+
+#### `apiKey`
+GIPHY API key, you can get one from https://developers.giphy.com/
+
+#### `loader`
+A custom loader react component that will be showing while performing API calls
+
+#### `placeholder`
+Input plave holder text
+
+#### `imagePlaceholderColor`
+Placeholder background color while rendering GIF images
+
+#### `className`
+CSS class name for GIPHY wrapper
+
+#### `inputClassName`
+CSS class name for seach keyword input
+
+#### `gifClassName`
+CSS class name for GIF image
+
+#### `children`
+Child react components
 
 ## Styles
 Uses styled-components 💅 for the base styling.
