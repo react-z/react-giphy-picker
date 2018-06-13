@@ -23,6 +23,7 @@ export default class extends Component {
 			gifs: [],
 			searchValue: '',
 			loading: true,
+			hasMore: true,
 			giphySearchUrl: `https://api.giphy.com/v1/gifs/search?api_key=${this.props.apiKey}`,
 			giphyTrendingUrl: `https://api.giphy.com/v1/gifs/trending?api_key=${this.props.apiKey}`,
 			page: 0
@@ -40,6 +41,7 @@ export default class extends Component {
 			apiKey: PropTypes.string,
 			loader: PropTypes.element,
 			placeholder: PropTypes.string,
+			imagePlaceholderColor: PropTypes.string,
 			className: PropTypes.string,
 			inputClassName: PropTypes.string,
 			gifClassName: PropTypes.string,
@@ -53,6 +55,7 @@ export default class extends Component {
 			modal: false,
 			apiKey: "dc6zaTOxFJmzC",
 			placeholder: "Search for GIFs",
+			imagePlaceholderColor: '#E3E3E3',
 			loader: (<p>Loading...</p>)
 		}
 	}
@@ -70,11 +73,18 @@ export default class extends Component {
 		}).then((response) => {
 			return response.json()
 		}).then((response) => {
-			let gifs = response.data.map((g, i) => {return g.images})
+			let gifs = response.data.map(g => {return g.images})
+			let hasMore = true
+			const {total_count, count, offset} = response.pagination
+			if (total_count <= (count + offset)) {
+				hasMore = false
+			}
+
 			this.setState({
 				gifs: this.state.gifs.concat(gifs),
 				page: page + 1,
-				loading: false
+				loading: false,
+				hasMore: hasMore
 			})
 		})
 	}
@@ -97,10 +107,17 @@ export default class extends Component {
 			return response.json()
 		}).then((response) => {
 			let gifs = response.data.map((g, i) => {return g.images})
+			let hasMore = true
+			const {total_count, count, offset} = response.pagination
+			if (total_count <= (count + offset)) {
+				hasMore = false
+			}
+
 			this.setState({
 				gifs: this.state.gifs.concat(gifs),
 				page: page + 1,
-				loading: false
+				loading: false,
+				hasMore: hasMore
 			})
 		})
 	}
@@ -110,12 +127,19 @@ export default class extends Component {
 	}
 
 	onSearchChange (event) {
+		let value = event.target.value
 		event.stopPropagation()
 		this.setState({
 			searchValue: event.target.value,
 			page: -1,
 			gifs: []
-		}, () => this.searchGifs())
+		}, () => {
+			if (value) {
+				this.searchGifs()
+			} else {
+				this.loadTrendingGifs()
+			}
+		})
 	}
 
 	onKeyDown (event) {
@@ -130,21 +154,18 @@ export default class extends Component {
 	}
 
 	loadMore = () => {
-		const {loading, searchValue, page} = this.state
+		const {searchValue, page} = this.state
 		let nextPage = page + 1
-		console.log("loadmore", nextPage)
-		if (loading) {
-			return
-		}
+		let offset = (Number(nextPage) - 1) * 25;
 		if (searchValue) {
-			this.searchGifs(Number(nextPage) * 20)
+			this.searchGifs(offset)
 		} else {
-			this.loadTrendingGifs(Number(nextPage) * 20)
+			this.loadTrendingGifs(offset)
 		}
 	}
 
 	render() {
-		const {gifs, loading} = this.state
+		const {gifs, loading, hasMore} = this.state
 		const {visible, modal} = this.props
 		return (
 			<Wrapper className={this.props.className}>
@@ -163,16 +184,21 @@ export default class extends Component {
 					<GiphyWrapper>
 						<InfiniteScroll
 							loadMore={this.loadMore}
-							hasMore={!loading}
-							// loader={this.props.loader}
+							hasMore={hasMore || (!loading)}
 							initialLoad={false}
 							useWindow={false}
 						>
+							{!gifs.length && loading && this.props.loader}
 							{
 								gifs.map((g, i) => {
 									let gifUrl = g.fixed_width.url
 									return (
 										<Giphy
+											style={{
+												width: Number(g.fixed_width.width),
+												height: Number(g.fixed_width.height),
+												backgroundColor: this.props.imagePlaceholderColor
+											}}
 											key={i}
 											className={this.props.gifClassName}
 											src={gifUrl}
