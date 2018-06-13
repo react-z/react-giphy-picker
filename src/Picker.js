@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import 'whatwg-fetch'
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroller'
 
 function debounce(fn, delay) {
 	var timer = null;
@@ -70,10 +70,8 @@ export default class extends Component {
 
 		fetch(url, {
 			method: 'get'
-		}).then((response) => {
-			return response.json()
-		}).then((response) => {
-			let gifs = response.data.map(g => {return g.images})
+		}).then(res => res.json()).then((response) => {
+			let gifs = response.data.map(g => g.images)
 			let hasMore = true
 			const {total_count, count, offset} = response.pagination
 			if (total_count <= (count + offset)) {
@@ -103,10 +101,8 @@ export default class extends Component {
 		})
 		fetch(url, {
 			method: 'get'
-		}).then((response) => {
-			return response.json()
-		}).then((response) => {
-			let gifs = response.data.map((g, i) => {return g.images})
+		}).then(res => res.json()).then((response) => {
+			let gifs = response.data.map(g => g.images)
 			let hasMore = true
 			const {total_count, count, offset} = response.pagination
 			if (total_count <= (count + offset)) {
