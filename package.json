@@ -5,7 +5,7 @@
   "main": "lib/Picker.js",
   "author": "Steven Iseki <stevenisekimartin@gmail.com>",
   "scripts": {
-    "build": "babel src --out-dir lib",
+    "build": "webpack --config ./webpack.config.js",
     "example": "webpack --config ./example/webpack.config.js",
     "serve": "node ./example/server.js",
     "start": "npm run example && npm run serve",
@@ -43,6 +43,7 @@
     "react": "16.4.1",
     "react-addons-test-utils": "^15.1.0",
     "react-dom": "16.4.1",
+    "sinon": "^6.0.0",
     "webpack": "3.8.1",
     "webpack-cli": "^3.0.6"
   },

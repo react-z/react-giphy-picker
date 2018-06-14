@@ -1,12 +1,24 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import Picker from '../src/Picker'
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { configure } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import sinon from 'sinon'
 
-configure({ adapter: new Adapter() });
+configure({ adapter: new Adapter() })
+
+import mockData from './mock'
 
 describe('Giphy Picker component', () => {
+
+	beforeAll(function () {
+		const promise = Promise.resolve(mockData);
+		sinon.stub(global, 'fetch').callsFake(() => promise);
+	});
+
+	afterAll(function () {
+		global.fetch.restore(); // Unwraps the spy
+	});
 
 	it('should render GIF picker with onSelected prop', async () => {
 		const log = (gif) => {
