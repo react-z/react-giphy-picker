@@ -158,7 +158,7 @@ export default class extends Component {
 		const {gifs, loading, hasMore} = this.state
 		return (
 			<Wrapper>
-				<GiphyPickerWrapper>
+				<GiphyPickerWrapper className={"giphy-picker"}>
 					<Input
 						name='giphy-search'
 						type="text"
