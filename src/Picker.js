@@ -30,7 +30,6 @@ export default class extends Component {
 		}
 
 		this.searchGifs = debounce(this.searchGifs, 500)
-		this.loadTrendingGifs()
 	}
 
 	static get propTypes () {
@@ -52,6 +51,10 @@ export default class extends Component {
 			imagePlaceholderColor: '#E3E3E3',
 			loader: (<p>Loading...</p>)
 		}
+	}
+
+	componentDidMount() {
+		this.loadTrendingGifs()
 	}
 
 	loadTrendingGifs (offset) {
