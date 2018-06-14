@@ -36,8 +36,6 @@ export default class extends Component {
 	static get propTypes () {
 		return {
 			onSelected: PropTypes.func.isRequired,
-			visible: PropTypes.bool,
-			modal: PropTypes.bool,
 			apiKey: PropTypes.string,
 			loader: PropTypes.element,
 			placeholder: PropTypes.string,
@@ -51,8 +49,6 @@ export default class extends Component {
 
 	static get defaultProps () {
 		return {
-			visible: true,
-			modal: false,
 			apiKey: "dc6zaTOxFJmzC",
 			placeholder: "Search for GIFs",
 			imagePlaceholderColor: '#E3E3E3',
@@ -162,10 +158,9 @@ export default class extends Component {
 
 	render() {
 		const {gifs, loading, hasMore} = this.state
-		const {visible, modal} = this.props
 		return (
 			<Wrapper className={this.props.className}>
-				<GiphyPickerWrapper visible={visible} modal={modal}>
+				<GiphyPickerWrapper>
 					<Input
 						name='giphy-search'
 						type="text"
@@ -216,33 +211,27 @@ const Wrapper = styled.div`
 `
 
 const GiphyPickerWrapper = styled.div`
-  position: ${props => props.modal ? 'absolute' : 'static'};
-  opacity: ${props => props.visible ? 1 : 0};
-  transition: opacity 200ms linear;
-  margin-top: 1rem;
+  position: relative;
+  padding: 10px;
   border: 1px solid #F1F1F1;
-  border-radius: 2px;
+  border-radius: 4px;
   background: white;
-  box-shadow: 3px 3px 5px #BFBDBD;
-  width: 232px;
+  width: 230px;
   height: 400px;
   z-index: 100;
-  padding-top: 0.5rem;
 `
 
 const GiphyWrapper = styled.div`
-  padding-right: 0;
-  border-radius: 2px;
   overflow-y: scroll;
-  height: 362px;
-  margin-top: 0.2rem;
+  height: calc(100% - 45px);
+  margin-top: 10px;
 `
 
 const Giphy = styled.img`
   cursor: pointer;
   margin: 0 auto;
   display: block;
-  margin-top: 5px;
+  margin-bottom: 5px;
   border-radius: 3px;
 `
 
@@ -256,8 +245,7 @@ const Input = styled.input`
   line-height: 1;
   margin: 0;
   padding: 7px 10px;
-  width: 94%;
-  margin: 0 auto;
+  width: 100%;
   display: block;
   &:focus {
     outline: none;
