@@ -57,7 +57,7 @@ export default class extends Component {
 		this.loadTrendingGifs()
 	}
 
-	loadTrendingGifs (offset) {
+	loadTrendingGifs = (offset) => {
 		const {giphyTrendingUrl, page, loading} = this.state
 		if (loading) { return }
 
@@ -88,7 +88,7 @@ export default class extends Component {
 		})
 	}
 
-	searchGifs (offset) {
+	searchGifs = (offset) => {
 		const {giphySearchUrl, searchValue, page, loading} = this.state
 		if (searchValue.length < 1) { return }
 		if (loading) { return }
@@ -120,34 +120,33 @@ export default class extends Component {
 		})
 	}
 
-	onGiphySelect (gif) {
+	onGiphySelect = (gif) => {
 		this.props.onSelected(gif)
 	}
 
-	onSearchChange (event) {
+	onSearchChange = (event) => {
 		let value = event.target.value
 		event.stopPropagation()
 		this.setState({
-			searchValue: event.target.value,
+			searchValue: value,
 			page: 0,
 			gifs: []
-		}, () => {
-			if (value) {
-				this.searchGifs()
-			} else {
-				this.loadTrendingGifs()
-			}
 		})
+		if (value) {
+			this.searchGifs()
+		} else {
+			this.loadTrendingGifs()
+		}
 	}
 
-	onKeyDown (event) {
+	onKeyDown = (event) => {
 		if (event.key === 'Escape') {
 			event.preventDefault()
 			this.reset()
 		}
 	}
 
-	reset () {
+	reset = () => {
 		this.setState({searchValue: ''})
 	}
 
@@ -174,9 +173,9 @@ export default class extends Component {
 						autoCapitalize="none"
 						autoComplete="off"
 						autoCorrect="off"
-						onChange={::this.onSearchChange}
+						onChange={this.onSearchChange}
 						value={this.state.searchValue}
-						onKeyDown={::this.onKeyDown}
+						onKeyDown={this.onKeyDown}
 						placeholder={this.props.placeholder} />
 					<GiphyWrapper>
 						<InfiniteScroll
