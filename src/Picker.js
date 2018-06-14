@@ -40,9 +40,7 @@ export default class extends Component {
 			loader: PropTypes.element,
 			placeholder: PropTypes.string,
 			imagePlaceholderColor: PropTypes.string,
-			className: PropTypes.string,
 			inputClassName: PropTypes.string,
-			gifClassName: PropTypes.string,
 			children: PropTypes.element
 		}
 	}
@@ -160,7 +158,7 @@ export default class extends Component {
 		const {gifs, loading, hasMore} = this.state
 		return (
 			<Wrapper>
-				<GiphyPickerWrapper className={this.props.className}>
+				<GiphyPickerWrapper>
 					<Input
 						name='giphy-search'
 						type="text"
@@ -191,7 +189,6 @@ export default class extends Component {
 												backgroundColor: this.props.imagePlaceholderColor
 											}}
 											key={i}
-											className={this.props.gifClassName}
 											src={gifUrl}
 											onClick={() => {this.onGiphySelect(g)}} />
 									)
