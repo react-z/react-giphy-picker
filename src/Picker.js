@@ -22,7 +22,7 @@ export default class extends Component {
 		this.state = {
 			gifs: [],
 			searchValue: '',
-			loading: true,
+			loading: false,
 			hasMore: true,
 			giphySearchUrl: `https://api.giphy.com/v1/gifs/search?api_key=${this.props.apiKey}`,
 			giphyTrendingUrl: `https://api.giphy.com/v1/gifs/trending?api_key=${this.props.apiKey}`,
@@ -55,13 +55,17 @@ export default class extends Component {
 	}
 
 	loadTrendingGifs (offset) {
-		const {giphyTrendingUrl, page} = this.state
+		const {giphyTrendingUrl, page, loading} = this.state
+		if (loading) { return }
 
 		let url = giphyTrendingUrl
 		if (offset) {
 			url += '&offset=' + offset
 		}
 
+		this.setState({
+			loading: true
+		})
 		fetch(url, {
 			method: 'get'
 		}).then(res => res.json()).then((response) => {
@@ -82,8 +86,9 @@ export default class extends Component {
 	}
 
 	searchGifs (offset) {
-		const {giphySearchUrl, searchValue, page} = this.state
+		const {giphySearchUrl, searchValue, page, loading} = this.state
 		if (searchValue.length < 1) { return }
+		if (loading) { return }
 
 		let url = giphySearchUrl + '&q=' + searchValue.replace(' ', '+')
 		if (offset) {
@@ -121,7 +126,7 @@ export default class extends Component {
 		event.stopPropagation()
 		this.setState({
 			searchValue: event.target.value,
-			page: -1,
+			page: 0,
 			gifs: []
 		}, () => {
 			if (value) {
@@ -173,7 +178,7 @@ export default class extends Component {
 					<GiphyWrapper>
 						<InfiniteScroll
 							loadMore={this.loadMore}
-							hasMore={hasMore || (!loading)}
+							hasMore={!loading && hasMore}
 							initialLoad={false}
 							useWindow={false}
 						>
