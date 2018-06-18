@@ -183,6 +183,7 @@ export default class extends Component {
 							hasMore={!loading && hasMore}
 							initialLoad={false}
 							useWindow={false}
+							threshold={700}
 						>
 							{!gifs.length && loading && this.props.loader}
 							{
