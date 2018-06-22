@@ -1,6 +1,6 @@
 {
   "name": "react-giphy-component",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A react gif picker component using giphy API",
   "main": "lib/Picker.js",
   "author": "Arjun Komath <arjunkomath@gmail.com>",
