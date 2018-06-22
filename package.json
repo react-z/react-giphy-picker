@@ -1,9 +1,9 @@
 {
-  "name": "react-giphy-picker",
+  "name": "react-giphy-component",
   "version": "1.0.0",
-  "description": "A react gif picker using giphy API",
+  "description": "A react gif picker component using giphy API",
   "main": "lib/Picker.js",
-  "author": "Steven Iseki <stevenisekimartin@gmail.com>",
+  "author": "Arjun Komath <arjunkomath@gmail.com>",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "example": "webpack --config ./example/webpack.config.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/StevenIseki/react-giphy-picker.git"
+    "url": "https://github.com/arjunkomath/react-giphy-picker"
   },
   "license": "MIT",
   "peerDependencies": {
