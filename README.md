@@ -1,22 +1,22 @@
-# React GIPHY Picker
+# React GIPHY Component
 A simple gif picker component for React using GIPHY API
 
-[![npm version](https://badge.fury.io/js/react-giphy-picker.svg)](https://badge.fury.io/js/react-giphy-picker)
+[![npm version](https://badge.fury.io/js/react-giphy-component.svg)](https://badge.fury.io/js/react-giphy-component)
 
 ![](https://github.com/arjunkomath/react-giphy-picker/blob/master/example/screenshot.gif?raw=true)
 
 ## Install
 
 NPM -
-`npm install react-giphy-picker --save`
+`npm i react-giphy-component --save`
 
 Yarn -
-`yarn add react-giphy-picker`
+`yarn add react-giphy-component`
 
 ## Usage basic
 
 ```jsx
-import Picker from 'react-giphy-picker'
+import Picker from 'react-giphy-component'
 import ReactDOM from 'react-dom'
 import React, { Component, PropTypes } from 'react'
 
@@ -88,7 +88,3 @@ npm run build
 npm test
 npm start
 ```
-
-## License
-
-[MIT](http://isekivacenz.mit-license.org/)
