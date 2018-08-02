@@ -1,6 +1,6 @@
 {
   "name": "react-giphy-component",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A react gif picker component using giphy API",
   "main": "lib/Picker.js",
   "author": "Arjun Komath <arjunkomath@gmail.com>",
@@ -23,7 +23,7 @@
   "dependencies": {
     "prop-types": "^15.6.1",
     "react-infinite-scroller": "^1.1.4",
-    "styled-components": "3.3.2",
+    "styled-components": "3.0.2",
     "whatwg-fetch": "^2.0.2"
   },
   "devDependencies": {
