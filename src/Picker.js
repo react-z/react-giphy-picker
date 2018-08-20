@@ -230,7 +230,7 @@ export default class extends Component {
 													key={j}
 													style={{
 														width: '100%',
-														height: g.fixed_width.height,
+														height: Number(g.fixed_width.height),
 														backgroundColor: this.props.imagePlaceholderColor
 													}}
 													src={gifUrl}
