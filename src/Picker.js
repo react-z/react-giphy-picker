@@ -4,35 +4,57 @@ import styled from 'styled-components'
 import 'whatwg-fetch'
 import InfiniteScroll from 'react-infinite-scroller'
 
+Array.prototype.chunk = function (groupsize) {
+	var sets = [],
+		chunks,
+		i = 0
+	chunks = this.length / groupsize
+
+	while (i < chunks) {
+		sets[i] = this.splice(0, groupsize)
+		i++
+	}
+
+	return sets
+}
+
+Array.prototype.clone = function() {
+	return this.slice(0);
+}
+
 function debounce(fn, delay) {
-	var timer = null;
+	var timer = null
 	return function () {
-		var context = this, args = arguments;
-		clearTimeout(timer);
+		var context = this,
+			args = arguments
+		clearTimeout(timer)
 		timer = setTimeout(function () {
-			fn.apply(context, args);
-		}, delay);
-	};
+			fn.apply(context, args)
+		}, delay)
+	}
 }
 
 export default class extends Component {
-
-	constructor (props) {
+	constructor(props) {
 		super(props)
 		this.state = {
 			gifs: [],
 			searchValue: '',
 			loading: false,
 			hasMore: true,
-			giphySearchUrl: `https://api.giphy.com/v1/gifs/search?api_key=${this.props.apiKey}`,
-			giphyTrendingUrl: `https://api.giphy.com/v1/gifs/trending?api_key=${this.props.apiKey}`,
+			giphySearchUrl: `https://api.giphy.com/v1/gifs/search?api_key=${
+				this.props.apiKey
+				}`,
+			giphyTrendingUrl: `https://api.giphy.com/v1/gifs/trending?api_key=${
+				this.props.apiKey
+				}`,
 			page: 0
 		}
 
 		this.searchGifs = debounce(this.searchGifs, 500)
 	}
 
-	static get propTypes () {
+	static get propTypes() {
 		return {
 			onSelected: PropTypes.func.isRequired,
 			apiKey: PropTypes.string,
@@ -44,12 +66,12 @@ export default class extends Component {
 		}
 	}
 
-	static get defaultProps () {
+	static get defaultProps() {
 		return {
-			apiKey: "dc6zaTOxFJmzC",
-			placeholder: "Search for GIFs",
+			apiKey: 'dc6zaTOxFJmzC',
+			placeholder: 'Search for GIFs',
 			imagePlaceholderColor: '#E3E3E3',
-			loader: (<p>Loading...</p>)
+			loader: <p>Loading...</p>
 		}
 	}
 
@@ -57,9 +79,11 @@ export default class extends Component {
 		this.loadTrendingGifs()
 	}
 
-	loadTrendingGifs = (offset) => {
-		const {giphyTrendingUrl, page, loading} = this.state
-		if (loading) { return }
+	loadTrendingGifs = offset => {
+		const { giphyTrendingUrl, page, loading } = this.state
+		if (loading) {
+			return
+		}
 
 		let url = giphyTrendingUrl
 		if (offset) {
@@ -71,27 +95,33 @@ export default class extends Component {
 		})
 		fetch(url, {
 			method: 'get'
-		}).then(res => res.json()).then((response) => {
-			let gifs = response.data.map(g => g.images)
-			let hasMore = true
-			const {total_count, count, offset} = response.pagination
-			if (total_count <= (count + offset)) {
-				hasMore = false
-			}
-
-			this.setState({
-				gifs: this.state.gifs.concat(gifs),
-				page: page + 1,
-				loading: false,
-				hasMore: hasMore
-			})
 		})
+			.then(res => res.json())
+			.then(response => {
+				let gifs = response.data.map(g => g.images)
+				let hasMore = true
+				const { total_count, count, offset } = response.pagination
+				if (total_count <= count + offset) {
+					hasMore = false
+				}
+
+				this.setState({
+					gifs: this.state.gifs.concat(gifs),
+					page: page + 1,
+					loading: false,
+					hasMore: hasMore
+				})
+			})
 	}
 
-	searchGifs = (offset) => {
-		const {giphySearchUrl, searchValue, page, loading} = this.state
-		if (searchValue.length < 1) { return }
-		if (loading) { return }
+	searchGifs = offset => {
+		const { giphySearchUrl, searchValue, page, loading } = this.state
+		if (searchValue.length < 1) {
+			return
+		}
+		if (loading) {
+			return
+		}
 
 		let url = giphySearchUrl + '&q=' + searchValue.replace(' ', '+')
 		if (offset) {
@@ -103,28 +133,30 @@ export default class extends Component {
 		})
 		fetch(url, {
 			method: 'get'
-		}).then(res => res.json()).then((response) => {
-			let gifs = response.data.map(g => g.images)
-			let hasMore = true
-			const {total_count, count, offset} = response.pagination
-			if (total_count <= (count + offset)) {
-				hasMore = false
-			}
-
-			this.setState({
-				gifs: this.state.gifs.concat(gifs),
-				page: page + 1,
-				loading: false,
-				hasMore: hasMore
-			})
 		})
+			.then(res => res.json())
+			.then(response => {
+				let gifs = response.data.map(g => g.images)
+				let hasMore = true
+				const { total_count, count, offset } = response.pagination
+				if (total_count <= count + offset) {
+					hasMore = false
+				}
+
+				this.setState({
+					gifs: this.state.gifs.concat(gifs),
+					page: page + 1,
+					loading: false,
+					hasMore: hasMore
+				})
+			})
 	}
 
-	onGiphySelect = (gif) => {
+	onGiphySelect = gif => {
 		this.props.onSelected(gif)
 	}
 
-	onSearchChange = (event) => {
+	onSearchChange = event => {
 		let value = event.target.value
 		event.stopPropagation()
 		this.setState({
@@ -139,7 +171,7 @@ export default class extends Component {
 		}
 	}
 
-	onKeyDown = (event) => {
+	onKeyDown = event => {
 		if (event.key === 'Escape') {
 			event.preventDefault()
 			this.reset()
@@ -147,13 +179,13 @@ export default class extends Component {
 	}
 
 	reset = () => {
-		this.setState({searchValue: ''})
+		this.setState({ searchValue: '' })
 	}
 
 	loadMore = () => {
-		const {searchValue, page} = this.state
+		const { searchValue, page } = this.state
 		let nextPage = page + 1
-		let offset = (Number(nextPage) - 1) * 25;
+		let offset = (Number(nextPage) - 1) * 25
 		if (searchValue) {
 			this.searchGifs(offset)
 		} else {
@@ -162,12 +194,13 @@ export default class extends Component {
 	}
 
 	render() {
-		const {gifs, loading, hasMore} = this.state
+		const { gifs, loading, hasMore } = this.state
+		const rowChunks = gifs.clone().chunk(9)
 		return (
 			<Wrapper>
-				<GiphyPickerWrapper className={"giphy-picker"}>
+				<GiphyPickerWrapper className={'giphy-picker'}>
 					<Input
-						name='giphy-search'
+						name="giphy-search"
 						type="text"
 						className={this.props.inputClassName}
 						autoCapitalize="none"
@@ -176,7 +209,8 @@ export default class extends Component {
 						onChange={this.onSearchChange}
 						value={this.state.searchValue}
 						onKeyDown={this.onKeyDown}
-						placeholder={this.props.placeholder} />
+						placeholder={this.props.placeholder}
+					/>
 					<GiphyWrapper>
 						<InfiniteScroll
 							loadMore={this.loadMore}
@@ -185,23 +219,31 @@ export default class extends Component {
 							useWindow={false}
 							threshold={700}
 						>
-							{!gifs.length && loading && this.props.loader}
-							{
-								gifs.map((g, i) => {
-									let gifUrl = g.fixed_width.url
+							{!rowChunks.length && loading && this.props.loader}
+							<GiphyWrapperRow>
+								{rowChunks.map((gifs, i) => {
 									return (
-										<Giphy
-											style={{
-												width: Number(g.fixed_width.width),
-												height: Number(g.fixed_width.height),
-												backgroundColor: this.props.imagePlaceholderColor
-											}}
-											key={i}
-											src={gifUrl}
-											onClick={() => {this.onGiphySelect(g)}} />
+										<GiphyColumn key={i}>
+											{gifs.map((g, j) => {
+												let gifUrl = g.fixed_width.url
+												return (<Giphy
+													key={j}
+													style={{
+														width: '100%',
+														height: g.fixed_width.height,
+														backgroundColor: this.props.imagePlaceholderColor
+													}}
+													src={gifUrl}
+													onClick={() => {
+														this.onGiphySelect(g)
+													}}
+												/>)
+
+											})}
+										</GiphyColumn>
 									)
-								})
-							}
+								})}
+							</GiphyWrapperRow>
 						</InfiniteScroll>
 					</GiphyWrapper>
 				</GiphyPickerWrapper>
@@ -212,47 +254,64 @@ export default class extends Component {
 }
 
 const Wrapper = styled.div`
-  position: relative;
+	box-sizing: border-box;
+	position: relative;
 `
 
 const GiphyPickerWrapper = styled.div`
-  position: relative;
-  padding: 10px;
-  border: 1px solid #F1F1F1;
-  border-radius: 4px;
-  background: white;
-  width: 230px;
-  height: 400px;
-  z-index: 100;
+	box-sizing: border-box;
+	position: relative;
+	padding: 10px;
+	border: 1px solid #f1f1f1;
+	border-radius: 4px;
+	background: white;
+	width: 420px;
+	height: 400px;
+	z-index: 100;
 `
 
 const GiphyWrapper = styled.div`
-  overflow-y: scroll;
-  height: calc(100% - 45px);
-  margin-top: 10px;
+	box-sizing: border-box;
+	overflow-y: scroll;
+	height: calc(100% - 35px);
+	margin-top: 5px;
+`
+
+const GiphyWrapperRow = styled.div`
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0 4px;
+`
+
+const GiphyColumn = styled.div`
+	box-sizing: border-box;
+	flex: 50%;
+	max-width: 50%;
+	padding: 0 4px;
+	cursor: pointer;
 `
 
 const Giphy = styled.img`
-  cursor: pointer;
-  margin: 0 auto;
-  display: block;
-  margin-bottom: 5px;
-  border-radius: 3px;
+	border-radius: 3px;
+	margin-top: 8px;
+	box-sizing: border-box;
+	vertical-align: middle;
 `
 
 const Input = styled.input`
-  background-color: transparent;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  color: inherit;
-  font-size: 14px;
-  height: auto;
-  line-height: 1;
-  margin: 0;
-  padding: 7px 10px;
-  width: 100%;
-  display: block;
-  &:focus {
-    outline: none;
-  }
+	background-color: transparent;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	color: inherit;
+	font-size: 14px;
+	height: auto;
+	line-height: 1;
+	margin: 0;
+	padding: 7px 10px;
+	width: 100%;
+	display: block;
+	&:focus {
+		outline: none;
+	}
 `
