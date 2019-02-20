@@ -1,6 +1,6 @@
 import Picker from '../lib/Picker'
 import ReactDOM from 'react-dom'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 
 class TestComponent extends Component {
   constructor (props) {
@@ -30,12 +30,12 @@ class TestComponent extends Component {
       <div>
         <div style={{paddingBottom: '2rem'}}>
           <Picker
-            onSelected={::this.log}
+            onSelected={this.log.bind(this)}
             visible={visible}
             modal={false}
             />
         </div>
-        <button onClick={::this.toggleVisible}>toggle giphy picker</button>
+        <button onClick={this.toggleVisible.bind(this)}>toggle giphy picker</button>
         <img src={url} />
       </div>
     )

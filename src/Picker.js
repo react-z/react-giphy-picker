@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import 'whatwg-fetch'
 
@@ -17,9 +18,9 @@ export default class extends Component {
 
   static get propTypes () {
     return {
-      onSelected: React.PropTypes.func.isRequired,
-      visible: React.PropTypes.bool,
-      modal: React.PropTypes.bool
+      onSelected: PropTypes.func.isRequired,
+      visible: PropTypes.bool,
+      modal: PropTypes.bool
     }
   }
 
@@ -89,9 +90,9 @@ export default class extends Component {
             autoCapitalize="none"
             autoComplete="off"
             autoCorrect="off"
-            onChange={::this.onSearchChange}
+            onChange={this.onSearchChange.bind(this)}
             value={this.state.searchValue}
-            onKeyDown={::this.onKeyDown}
+            onKeyDown={this.onKeyDown.bind(this)}
             placeholder='Search for gifs' />
           <GiphyWrapper>
             {
