@@ -9,8 +9,8 @@ export default class extends Component {
     this.state = {
       gifs: [],
       searchValue: '',
-      giphySearchUrl: 'http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC',
-      giphyTrendingUrl: 'http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC'
+      giphySearchUrl: 'https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC',
+      giphyTrendingUrl: 'https://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC'
     }
 
     this.loadTrendingGifs()
